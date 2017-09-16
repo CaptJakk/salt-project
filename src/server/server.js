@@ -9,7 +9,7 @@ var app = express();
 
 var compiler = webpack(webpackConfig);
 
-app.use(express.static(__dirname + '/../../www'));
+app.use(express.static(path.resolve(__dirname, '/../../www')));
 
 if (process.env.NODE_ENV !== 'production') {
   app.use(webpackDevMiddleware(compiler, {
@@ -17,16 +17,16 @@ if (process.env.NODE_ENV !== 'production') {
     filename: 'bundle.js',
     publicPath: '/',
     stats: {
-      colors: true,
+      colors: true
     },
-    historyApiFallback: true,
+    historyApiFallback: true
   }));
 
   app.use(webpackHotMiddleWare(compiler, {
     log: console.log,
     path: '/__webpack_hmr',
     heartbeat: 10 * 1000,
-    reload: true,
+    reload: true
   }));
 }
 
@@ -36,7 +36,7 @@ var server = app.listen(3000, function () {
   console.log('Example app listening at http://%s:%s', host, port);
 });
 
-app.get('/priceBtc/', handlePriceBtc)
-app.get('/priceAlt/', handlePriceAlt)
-app.post('/tradeBtc/', handleTradeBtc)
-app.post('/tradeAlt/', handleTradeAlt)
+app.get('/priceBtc/', handlePriceBtc);
+app.get('/priceAlt/', handlePriceAlt);
+app.post('/tradeBtc/', handleTradeBtc);
+app.post('/tradeAlt/', handleTradeAlt);

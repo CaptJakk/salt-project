@@ -1,18 +1,23 @@
-const { create, env } = require('sanctuary');
-const { env: flutureEnv, FutureType } = require('fluture-sanctuary-types');
-const Future = require('fluture');
-const checkTypes = process.env.NODE_ENV !== 'production';
-const S = create({checkTypes, env: env.concat(flutureEnv)});
+const { S, F } = require('../../utils/sanctuaryEnv.js');
 
-const bitfinexTracker = require('./exchangeTrackers/bitfinexTracker.js');
-const gdaxTracker = require('./exchangeTrackers/gdaxTracker.js');
-const krakenTracker = require('./exchangeTrackers/krakenTracker.js');
+const bitfinexTracker = require('./exchangeTrackers/BTC/bitfinexTracker.js');
+const bittrexTracker = require('./exchangeTrackers/ALT/bittrexTracker.js');
+const gdaxTracker = require('./exchangeTrackers/BTC/gdaxTracker.js');
+const krakenTracker = require('./exchangeTrackers/BTC/krakenTracker.js');
+const poloniexTracker = require('./exchangeTrackers/ALT/poloniexTracker.js');
+const shapeshiftTracker = require('./exchangeTrackers/ALT/shapeshiftTracker.js');
 
 // exchangeTrackers :: [(String, String) -> Future Error PriceVolume]
-let exchangeTrackers = [
+let exchangeTrackersBtc = [
   bitfinexTracker.getPriceVolume,
   gdaxTracker.getPriceVolume,
   krakenTracker.getPriceVolume
+];
+
+let exchangeTrackersAlt = [
+  bittrexTracker.getPriceVolume,
+  poloniexTracker.getPriceVolume,
+  shapeshiftTracker.getPriceVolume
 ];
 
 // data PriceVolume = { price :: Number, volume :: Number }
@@ -31,12 +36,13 @@ const pvAverage = S.curry2((exchangeA, exchangeB) => {
 const priceVolumeOfPair = S.curry3((trackers, asset, metric) =>
   S.reduce(
     S.lift2(pvAverage),
-    Future.of({ price: 0, volume: 0 }),
+    F.of({ price: 0, volume: 0 }),
     S.map(tracker => tracker(asset, metric), trackers)
   ));
 
 module.exports = {
-  exchangeTrackers,
+  exchangeTrackersBtc,
+  exchangeTrackersAlt,
   priceVolumeOfPair,
   pvAverage
 };
