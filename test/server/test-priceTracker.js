@@ -1,5 +1,6 @@
 /* eslint-env jest */
 /* eslint-disable no-unused-expressions */
+const Future = require('fluture');
 const priceTracker = require('../../src/server/priceTracker.js');
 const {
   priceVolumeOfPair,
@@ -21,10 +22,15 @@ describe('pvAverage', () => {
   });
 });
 describe('priceVolumeOfPair', () => {
-  test('10p10v + 5p10v + 15p10v == 10p30v', () => {
+  test('10p10v + 5p10v + 15p10v == 10p30v', done => {
     const trackerA = (asset, metric) => Future.of({ price: 10, volume: 10 });
     const trackerB = (asset, metric) => Future.of({ price: 5, volume: 10 });
     const trackerC = (asset, metric) => Future.of({ price: 15, volume: 10 });
     const trackers = [trackerA, trackerB, trackerC];
+    priceVolumeOfPair(trackers, 'BTC', 'USD').done((err, val) => {
+      expect(err).toBe.null;
+      expect(val).toEqual({ price: 10, volume: 30 });
+      done();
+    });
   });
 });
