@@ -23,9 +23,9 @@ describe('pvAverage', () => {
 });
 describe('priceVolumeOfPair', () => {
   test('10p10v + 5p10v + 15p10v == 10p30v', done => {
-    const trackerA = (asset, metric) => F.of({ price: 10, volume: 10 });
-    const trackerB = (asset, metric) => F.of({ price: 5, volume: 10 });
-    const trackerC = (asset, metric) => F.of({ price: 15, volume: 10 });
+    const trackerA = (asset, metric) => F.after(10, { price: 10, volume: 10 });
+    const trackerB = (asset, metric) => F.after(10, { price: 5, volume: 10 });
+    const trackerC = (asset, metric) => F.after(10, { price: 15, volume: 10 });
     const trackers = [trackerA, trackerB, trackerC];
     priceVolumeOfPair(trackers, 'BTC', 'USD').done((err, val) => {
       expect(err).toBe.null;

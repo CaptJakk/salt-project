@@ -5,7 +5,7 @@ const getPriceVolume = S.curry3((tradingPairs, apiEndpoint, transformResponse) =
   if (S.contains({ asset, metric }, tradingPairs)) {
     return faxios.get(apiEndpoint(asset, metric))
       .map(res => res.data)
-      .map(transformResponse)
+      .map(transformResponse(asset, metric))
       .chain(pv => {
         const price = parseFloat(pv.price);
         const volume = parseFloat(pv.volume);

@@ -1,17 +1,17 @@
 const { S } = require('../../../utils/sanctuaryEnv.js');
 const { getPriceVolume } = require('../exchangeTracker.js');
 
-const API_URL = 'https://shapeshift.io';
+const API_URL = 'https://api.hitbtc.com';
 
 const tickerMap = {
   LTC: {
-    BTC: 'BTC_LTC'
+    BTC: 'LTCBTC'
   },
   ETH: {
-    BTC: 'BTC_ETH'
+    BTC: 'ETHBTC'
   },
   DOGE: {
-    BTC: 'BTC_DOGE'
+    BTC: 'DOGEBTC'
   }
 };
 
@@ -21,12 +21,9 @@ const tradingPairs = [
   { asset: 'DOGE', metric: 'BTC' }
 ];
 
-const apiEndpoint = S.curry2((asset, metric) => API_URL + '/rate/' + tickerMap[asset][metric]);
+const apiEndpoint = S.curry2((asset, metric) => API_URL + '/api/1/public/' + tickerMap[asset][metric] + '/ticker');
 
-const transformResponse = (asset, metric) => data => {
-  const ticker = data[tickerMap[asset][metric]];
-  return { price: ticker.last, volume: ticker.quoteVolume };
-};
+const transformResponse = (asset, metric) => data => ({ price: data.last, volume: data.volume });
 
 module.exports = {
   getPriceVolume: getPriceVolume(tradingPairs, apiEndpoint, transformResponse)

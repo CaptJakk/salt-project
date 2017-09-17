@@ -1,0 +1,21 @@
+{
+   "message" : "",
+   "success" : true,
+   "result" : [
+      {
+         "Volume" : 2943761183.12973,
+         "BaseVolume" : 713.91578278,
+         "Ask" : 2.4e-07,
+         "Created" : "2014-02-13T00:00:00",
+         "Last" : 2.4e-07,
+         "High" : 2.6e-07,
+         "Bid" : 2.3e-07,
+         "MarketName" : "BTC-DOGE",
+         "TimeStamp" : "2017-09-17T01:23:16.457",
+         "Low" : 2.3e-07,
+         "PrevDay" : 2.5e-07,
+         "OpenBuyOrders" : 1361,
+         "OpenSellOrders" : 13120
+      }
+   ]
+}

@@ -13,7 +13,7 @@ const tradingPairs = [{ asset: 'BTC', metric: 'USD' }];
 
 const apiEndpoint = S.curry2((asset, metric) => API_URL + '/products/' + tickerMap[asset][metric] + '/ticker');
 
-const transformResponse = data => ({ price: data.price, volume: data.volume });
+const transformResponse = (asset, metric) => data => ({ price: data.price, volume: data.volume });
 
 module.exports = {
   getPriceVolume: getPriceVolume(tradingPairs, apiEndpoint, transformResponse)

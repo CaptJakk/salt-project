@@ -4,7 +4,7 @@
   "description": "This is a developer interview/test for SaltLending.com for CaptJakk",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --runInBand",
     "compile": "webpack --progress --colors --watch",
     "start": "node src/server/server.js"
   },

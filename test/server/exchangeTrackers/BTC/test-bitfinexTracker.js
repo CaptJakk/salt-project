@@ -1,8 +1,8 @@
 /* eslint-env jest */
 /* eslint-disable no-unused-expressions */
 jest.mock('axios');
-const data = require('../../test-data/bitfinex-response.json');
-const { getPriceVolume } = require('../../../src/server/exchangeTrackers/BTC/bitfinexTracker.js');
+const data = require('../../../test-data/bitfinex-response.json');
+const { getPriceVolume } = require('../../../../src/server/exchangeTrackers/BTC/bitfinexTracker.js');
 
 describe('getPriceVolume succeeds', () => {
   require('axios').__setMockResponseSuccess(data);

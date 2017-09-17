@@ -13,7 +13,7 @@ const tradingPairs = [{ asset: 'BTC', metric: 'USD' }];
 
 const apiEndpoint = S.curry2((asset, metric) => API_URL + '/0/public/Ticker?pair=' + tickerMap[asset][metric]);
 
-const transformResponse = data => {
+const transformResponse = (asset, metric) => data => {
   const price = Object.values(data.result)[0].c[0];
   const volume = Object.values(data.result)[0].v[1];
   return { price, volume };

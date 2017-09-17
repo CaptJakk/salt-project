@@ -1,8 +1,8 @@
 /* eslint-env jest */
 /* eslint-disable no-unused-expressions */
 jest.mock('axios');
-const data = require('../../test-data/gdax-response.json');
-const { getPriceVolume } = require('../../../src/server/exchangeTrackers/BTC/gdaxTracker.js');
+const data = require('../../../test-data/gdax-response.json');
+const { getPriceVolume } = require('../../../../src/server/exchangeTrackers/BTC/gdaxTracker.js');
 
 describe('getPriceVolume succeeds', () => {
   require('axios').__setMockResponseSuccess(data);
