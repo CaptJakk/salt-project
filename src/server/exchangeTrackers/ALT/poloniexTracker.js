@@ -2,7 +2,7 @@ const { S } = require('../../../utils/sanctuaryEnv.js');
 const { getPriceVolume } = require('../exchangeTracker.js');
 const { BTC, LTC, ETH, DOGE } = require('../../../utils/symbolConstants.js');
 
-const API_URL = 'https://shapeshift.io';
+const API_URL = 'https://poloniex.com';
 
 const tickerMap = {
   [LTC]: {
@@ -22,7 +22,7 @@ const tradingPairs = [
   { asset: DOGE, metric: BTC }
 ];
 
-const apiEndpoint = S.curry2((asset, metric) => API_URL + '/rate/' + tickerMap[asset][metric]);
+const apiEndpoint = S.curry2((asset, metric) => API_URL + '/public?command=returnTicker');
 
 const transformResponse = (asset, metric) => data => {
   const ticker = data[tickerMap[asset][metric]];
