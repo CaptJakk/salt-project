@@ -1,4 +1,4 @@
-const { S, F } = require('../../utils/sanctuaryEnv.js');
+const { S, F } = require('../utils/sanctuaryEnv.js');
 
 const bitfinexTracker = require('./exchangeTrackers/BTC/bitfinexTracker.js');
 const bittrexTracker = require('./exchangeTrackers/ALT/bittrexTracker.js');

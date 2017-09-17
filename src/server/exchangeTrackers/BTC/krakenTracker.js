@@ -1,19 +1,24 @@
-const { S, F } = require('../../../utils/sanctuaryEnv.js');
-const faxios = require('../../../utils/faxios.js');
+const { S } = require('../../../utils/sanctuaryEnv.js');
+const { getPriceVolume } = require('../exchangeTracker.js');
 
 const API_URL = 'https://api.kraken.com';
 
-const getPriceVolume = S.curry2((asset, metric) => {
-  if (asset === 'BTC' && metric === 'USD') {
-    return faxios.get(API_URL + '/0/public/Ticker?pair=XXBTZUSD')
-      .map(res => res.data.result.XXBTZUSD)
-      .map(data => ({ price: data.c[0], volume: data.v[1] }))
-      .fork(console.error, console.log);
-  } else {
-    return F.reject(new Error(`Unsupported Trading Pair: { asset: ${asset}, metric: ${metric}`));
+const tickerMap = {
+  BTC: {
+    USD: 'XXBTZUSD'
   }
-});
+};
+
+const tradingPairs = [{ asset: 'BTC', metric: 'USD' }];
+
+const apiEndpoint = S.curry2((asset, metric) => API_URL + '/0/public/Ticker?pair=' + tickerMap[asset][metric]);
+
+const transformResponse = data => {
+  const price = Object.values(data.result)[0].c[0];
+  const volume = Object.values(data.result)[0].v[1];
+  return { price, volume };
+};
 
 module.exports = {
-  getPriceVolume
+  getPriceVolume: getPriceVolume(tradingPairs, apiEndpoint, transformResponse)
 };
