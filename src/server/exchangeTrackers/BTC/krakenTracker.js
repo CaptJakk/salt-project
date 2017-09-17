@@ -1,15 +1,16 @@
 const { S } = require('../../../utils/sanctuaryEnv.js');
 const { getPriceVolume } = require('../exchangeTracker.js');
+const { USD, BTC } = require('../../../utils/symbolConstants.js');
 
 const API_URL = 'https://api.kraken.com';
 
 const tickerMap = {
-  BTC: {
-    USD: 'XXBTZUSD'
+  [BTC]: {
+    [USD]: 'XXBTZUSD'
   }
 };
 
-const tradingPairs = [{ asset: 'BTC', metric: 'USD' }];
+const tradingPairs = [{ asset: BTC, metric: USD }];
 
 const apiEndpoint = S.curry2((asset, metric) => API_URL + '/0/public/Ticker?pair=' + tickerMap[asset][metric]);
 

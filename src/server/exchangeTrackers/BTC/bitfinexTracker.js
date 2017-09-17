@@ -1,15 +1,16 @@
 const { S } = require('../../../utils/sanctuaryEnv.js');
 const { getPriceVolume } = require('../exchangeTracker.js');
+const { USD, BTC } = require('../../../utils/symbolConstants.js');
 
 const API_URL = 'https://api.bitfinex.com/v1';
 
 const tickerMap = {
-  BTC: {
-    USD: 'btcusd'
+  [BTC]: {
+    [USD]: 'btcusd'
   }
 };
 
-const tradingPairs = [{ asset: 'BTC', metric: 'USD' }];
+const tradingPairs = [{ asset: BTC, metric: USD }];
 
 const apiEndpoint = S.curry2((asset, metric) => API_URL + '/pubticker/' + tickerMap[asset][metric]);
 

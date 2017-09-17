@@ -1,24 +1,25 @@
-const { S, P } = require('../../../utils/sanctuaryEnv.js');
+const { S } = require('../../../utils/sanctuaryEnv.js');
+const { BTC, LTC, ETH, DOGE } = require('../../../utils/symbolConstants.js');
 const { getPriceVolume } = require('../exchangeTracker.js');
 
 const API_URL = 'https://bittrex.com/api/v1.1';
 
 const tickerMap = {
-  LTC: {
-    BTC: 'btc-ltc'
+  [LTC]: {
+    [BTC]: 'btc-ltc'
   },
-  ETH: {
-    BTC: 'btc-eth'
+  [ETH]: {
+    [BTC]: 'btc-eth'
   },
-  DOGE: {
-    BTC: 'btc-doge'
+  [DOGE]: {
+    [BTC]: 'btc-doge'
   }
 };
 
 const tradingPairs = [
-  { asset: 'LTC', metric: 'BTC' },
-  { asset: 'ETH', metric: 'BTC' },
-  { asset: 'DOGE', metric: 'BTC' }
+  { asset: LTC, metric: BTC },
+  { asset: ETH, metric: BTC },
+  { asset: DOGE, metric: BTC }
 ];
 
 const apiEndpoint = S.curry2((asset, metric) => API_URL + '/public/getmarketsummary?market=' + tickerMap[asset][metric]);
