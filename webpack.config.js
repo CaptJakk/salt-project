@@ -5,11 +5,11 @@ var config = {
   context: path.join(__dirname, 'src/client'),
   entry: [
     'webpack-hot-middleware/client?reload=true',
-    './index.jsx',
+    './index.js'
   ],
   output: {
     path: path.join(__dirname, 'www'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   devtool: 'source-map',
   plugins: [
@@ -22,19 +22,19 @@ var config = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ['react-hot', 'babel'],
-      },
-    ],
+        loaders: ['react-hot', 'babel']
+      }
+    ]
   },
   resolveLoader: {
     root: [
-      path.join(__dirname, 'node_modules'),
-    ],
+      path.join(__dirname, 'node_modules')
+    ]
   },
   resolve: {
     root: [
-      path.join(__dirname, 'node_modules'),
-    ],
-  },
+      path.join(__dirname, 'node_modules')
+    ]
+  }
 };
 module.exports = config;
