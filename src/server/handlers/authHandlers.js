@@ -1,6 +1,6 @@
-const handleLoginPage = (req, res) => null;
-const handleLogin = (req, res) => null;
-const handleLogout = (req, res) => null;
+const handleLoginPage = (req, res) => res.status(404).send('Not Found');
+const handleLogin = (req, res) => res.status(404).send('Not Found');
+const handleLogout = (req, res) => res.status(404).send('Not Found');
 
 module.exports = {
   handleLoginPage,

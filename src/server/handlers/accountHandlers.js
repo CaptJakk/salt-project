@@ -1,9 +1,9 @@
-const handleBalances = (req, res) => null;
-const handleBalanceSymbol = (req, res) => null;
-const handleValueUsd = (req, res) => null;
-const handleValueBtc = (req, res) => null;
-const handleBreakdown = (req, res) => null;
-const handleHistory = (req, res) => null;
+const handleBalances = (req, res) => res.status(404).send('Not Found');
+const handleBalanceSymbol = (req, res) => res.status(404).send('Not Found');
+const handleValueUsd = (req, res) => res.status(404).send('Not Found');
+const handleValueBtc = (req, res) => res.status(404).send('Not Found');
+const handleBreakdown = (req, res) => res.status(404).send('Not Found');
+const handleHistory = (req, res) => res.status(404).send('Not Found');
 
 module.exports = {
   handleBalances,

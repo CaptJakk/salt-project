@@ -7,6 +7,7 @@ var webpackConfig = require('../../webpack.config.js');
 const priceTracker = require('./priceTracker.js');
 const apiHandlers = require('./handlers/apiHandlers.js');
 const { USD, BTC, LTC, ETH, DOGE } = require('../utils/symbolConstants.js');
+const { setPriceVolume } = require('./stores/priceStore.js');
 const {
   exchangeTrackersAlt,
   exchangeTrackersBtc,
@@ -16,7 +17,7 @@ const {
 // App Setup
 var app = express();
 var compiler = webpack(webpackConfig);
-app.use(express.static(path.resolve(__dirname, '/../../www')));
+app.use(express.static(path.resolve(__dirname, '../../www')));
 if (process.env.NODE_ENV !== 'production') {
   app.use(webpackDevMiddleware(compiler, {
     hot: true,
@@ -36,45 +37,27 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Price Fetching Background Job
-const priceVolumes = {
-  [BTC]: {
-    [USD]: null
-  },
-  [ETH]: {
-    [BTC]: null
-  },
-  [LTC]: {
-    [BTC]: null
-  },
-  [DOGE]: {
-    [BTC]: null
-  }
-};
-
-// setPriceVolume :: (PriceStore, String, String) -> (Error, PriceVolume) -> IO ()
-const setPriceVolume = (priceStore, asset, metric) => (err, res) => {
-  if (err) {
-    console.error(`Failed to fetch price for ${asset}-${metric} pair`);
-  }
-  priceStore[asset][metric] = res;
-  console.log(res);
-};
+// priceFetchErr :: (String, String) -> Error -> IO ()
+const priceFetchErr = (asset, metric) => err =>
+  console.error(`Failed to fetch price for ${asset}-${metric} pair: ${err.message}`);
 
 // fetchAllPriceVolumes :: () -> IO ()
 const fetchAllPriceVolumes = () => {
-  priceVolumeOfPair(exchangeTrackersBtc, BTC, USD).done(setPriceVolume(priceVolumes, BTC, USD));
-  priceVolumeOfPair(exchangeTrackersAlt, LTC, BTC).done(setPriceVolume(priceVolumes, LTC, BTC));
-  priceVolumeOfPair(exchangeTrackersAlt, ETH, BTC).done(setPriceVolume(priceVolumes, ETH, BTC));
-  priceVolumeOfPair(exchangeTrackersAlt, DOGE, BTC).done(setPriceVolume(priceVolumes, DOGE, BTC));
+  priceVolumeOfPair(exchangeTrackersBtc, BTC, USD).fork(priceFetchErr(BTC, USD), setPriceVolume(BTC, USD));
+  priceVolumeOfPair(exchangeTrackersAlt, LTC, BTC).fork(priceFetchErr(LTC, BTC), setPriceVolume(LTC, BTC));
+  priceVolumeOfPair(exchangeTrackersAlt, ETH, BTC).fork(priceFetchErr(ETH, USD), setPriceVolume(ETH, BTC));
+  priceVolumeOfPair(exchangeTrackersAlt, DOGE, BTC).fork(priceFetchErr(DOGE, USD), setPriceVolume(DOGE, BTC));
 };
 
 // kick off price fetching interval
 fetchAllPriceVolumes();
 setInterval(fetchAllPriceVolumes, 60000);
 
+// app.get('/', (req, res) => res.redirect('../../www/index.js'));
 // API Route Definitions
 // Price Fetching API's
 // Get all prices
+
 app.get('/prices', apiHandlers.handlePrices);
 // Get price for specific trading pair
 app.get('/price/:symbol', apiHandlers.handlePriceSymbol);
