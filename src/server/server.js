@@ -1,3 +1,6 @@
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
 var path = require('path');
 var express = require('express');
 var webpackDevMiddleware = require('webpack-dev-middleware');
@@ -16,6 +19,15 @@ const {
 
 // App Setup
 var app = express();
+var privateKey = fs.readFileSync('server.key', 'utf-8');
+var certificate = fs.readFileSync('server.crt', 'utf-8');
+const requireHTTPS = (req, res, next) => {
+  if (!req.secure) {
+    return res.redirect('https://' + req.get('host') + req.url);
+  }
+  next();
+};
+app.use(requireHTTPS);
 var compiler = webpack(webpackConfig);
 app.use(express.static(path.resolve(__dirname, '../../www')));
 if (process.env.NODE_ENV !== 'production') {
@@ -98,8 +110,8 @@ app.post('/login', apiHandlers.handleLogin);
 app.post('/logout', apiHandlers.handleLogout);
 
 // Launch Server
-var server = app.listen(3000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
-});
+const credentials = { key: privateKey, cert: certificate };
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+httpServer.listen(80);
+httpsServer.listen(443);
