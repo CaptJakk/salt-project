@@ -118,6 +118,7 @@ export function sendInvite () {
     faxios.post3('/api/invite', body, headers).done((err, res) => {
       if (err) {
         console.error(err);
+        dispatch(setError(err.message));
       } else {
         const newInvites = getState().invites.slice();
         newInvites.push(res.data.invitecode);
@@ -134,6 +135,7 @@ export function getInvites () {
     faxios.get('/api/invite', headers).done((err, res) => {
       if (err) {
         console.error(err);
+        dispatch(setError(err.message));
       } else {
         dispatch(setInvites(res.data));
       }
@@ -147,6 +149,7 @@ export function getPrices () {
     faxios.get('/api/prices', {}).done((err, res) => {
       if (err) {
         console.error(err);
+        dispatch(setError(err.message));
       } else {
         dispatch(setPrices(res.data));
       }
@@ -163,6 +166,7 @@ export function getBalances () {
     faxios.get(`/api/${username}/balances`, headers).done((err, res) => {
       if (err) {
         console.error(err);
+        dispatch(setError(err.message));
       } else {
         dispatch(setBalances(res.data));
       }
@@ -179,6 +183,7 @@ export function getValueUsd () {
     faxios.get(`/api/${username}/portfolio/value/USD`, headers).done((err, res) => {
       if (err) {
         console.error(err);
+        dispatch(setError(err.message));
       } else {
         dispatch(setValueUsd(res.data.value));
       }
@@ -195,8 +200,32 @@ export function getValueBtc () {
     faxios.get(`/api/${username}/portfolio/value/BTC`, headers).done((err, res) => {
       if (err) {
         console.error(err);
+        dispatch(setError(err.message));
       } else {
         dispatch(setValueBtc(res.data.value));
+      }
+    });
+  };
+}
+
+export function sendTrade (op, opmod, asset, amount, limit) {
+  return (dispatch, getState) => {
+    console.log('Posting Trade');
+    console.log(typeof amount);
+    const username = window.sessionStorage.getItem('username');
+    const authHeader = { 'Authorization': `Bearer ${window.sessionStorage.getItem('jwt')}` };
+    const headers = { headers: authHeader };
+    const body = {
+      asset,
+      amount,
+      limit: opmod === 'MARKET' ? undefined : limit
+    };
+    faxios.post3(`/api/${username}/${op.toLowerCase()}/${opmod.toLowerCase()}`, body, headers).done((err, res) => {
+      if (err) {
+        console.error(err);
+        dispatch(setError(err.message));
+      } else {
+        dispatch(getBalances());
       }
     });
   };

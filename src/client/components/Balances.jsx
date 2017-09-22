@@ -21,11 +21,11 @@ class Balances extends React.Component {
     return (
       <div>
         <h3>Balances</h3>
-        <h6>BTC: { balances ? balances.USD : '...' }</h6>
+        <h6>USD: { balances ? balances.USD : '...' }</h6>
         <h6>BTC: { balances ? balances.BTC : '...' }</h6>
-        <h6>BTC: { balances ? balances.ETH : '...' }</h6>
-        <h6>BTC: { balances ? balances.LTC : '...' }</h6>
-        <h6>BTC: { balances ? balances.DOGE : '...' }</h6>
+        <h6>ETH: { balances ? balances.ETH : '...' }</h6>
+        <h6>LTC: { balances ? balances.LTC : '...' }</h6>
+        <h6>DOGE: { balances ? balances.DOGE : '...' }</h6>
         <h5>Value in USD: { valueUsd || '...' }</h5>
         <h5>Value in BTC: { valueBtc || '...' }</h5>
       </div>

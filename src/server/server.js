@@ -78,7 +78,7 @@ const fetchAllPriceVolumes = () => {
 
 // kick off price fetching interval
 fetchAllPriceVolumes();
-setInterval(fetchAllPriceVolumes, 60000);
+setInterval(fetchAllPriceVolumes, 5000);
 
 // app.get('/', (req, res) => res.redirect('../../www/index.js'));
 // API Route Definitions

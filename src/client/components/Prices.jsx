@@ -13,7 +13,7 @@ class Prices extends React.Component {
   }
   componentDidMount () {
     this.props.getPrices();
-    this.setState({ timer: window.setInterval(this.props.getPrices, 60000) });
+    this.setState({ timer: window.setInterval(this.props.getPrices, 5000) });
   }
   componentWillUnmount () {
     window.clearInterval(this.state.timer);
