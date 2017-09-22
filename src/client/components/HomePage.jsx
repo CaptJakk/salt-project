@@ -4,6 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Invites from './Invites.jsx';
+import Prices from './Prices.jsx';
+import Balances from './Balances.jsx';
+import Trade from './Trade.jsx';
+import History from './History.jsx';
 import {
   sendInvite,
   sendLogout
@@ -26,6 +30,14 @@ class HomePage extends React.Component {
         <button onClick={this.handleLogout}>Logout</button>
         <br />
         <Invites />
+        <br />
+        <Prices />
+        <br />
+        <Balances />
+        <br />
+        <Trade />
+        <br />
+        <History />
       </div>
     );
   }

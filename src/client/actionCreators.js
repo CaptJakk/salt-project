@@ -6,7 +6,11 @@ import {
   SET_INVITECODE,
   SET_ERROR,
   SET_ADMIN,
-  SET_INVITES
+  SET_INVITES,
+  SET_PRICES,
+  SET_BALANCES,
+  SET_VALUE_USD,
+  SET_VALUE_BTC
 } from './actions';
 const faxios = require('../utils/faxios.js');
 
@@ -33,6 +37,18 @@ export function setAdmin (admin) {
 }
 export function setInvites (invites) {
   return { type: SET_INVITES, invites };
+}
+export function setPrices (prices) {
+  return { type: SET_PRICES, prices };
+}
+export function setBalances (balances) {
+  return { type: SET_BALANCES, balances };
+}
+export function setValueUsd (valueUsd) {
+  return { type: SET_VALUE_USD, valueUsd };
+}
+export function setValueBtc (valueBtc) {
+  return { type: SET_VALUE_BTC, valueBtc };
 }
 
 export function sendRegistration (router) {
@@ -105,7 +121,6 @@ export function sendInvite () {
       } else {
         const newInvites = getState().invites.slice();
         newInvites.push(res.data.invitecode);
-        console.log(newInvites);
         dispatch(setInvites(newInvites));
       }
     });
@@ -121,6 +136,67 @@ export function getInvites () {
         console.error(err);
       } else {
         dispatch(setInvites(res.data));
+      }
+    });
+  };
+}
+
+export function getPrices () {
+  return (dispatch, getState) => {
+    console.log('Fetching Prices');
+    faxios.get('/api/prices', {}).done((err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        dispatch(setPrices(res.data));
+      }
+    });
+  };
+}
+
+export function getBalances () {
+  return (dispatch, getState) => {
+    console.log('Fetching Balances');
+    const username = window.sessionStorage.getItem('username');
+    const authHeader = { 'Authorization': `Bearer ${window.sessionStorage.getItem('jwt')}` };
+    const headers = { headers: authHeader };
+    faxios.get(`/api/${username}/balances`, headers).done((err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        dispatch(setBalances(res.data));
+      }
+    });
+  };
+}
+
+export function getValueUsd () {
+  return (dispatch, getState) => {
+    console.log('Fetching USD Value');
+    const username = window.sessionStorage.getItem('username');
+    const authHeader = { 'Authorization': `Bearer ${window.sessionStorage.getItem('jwt')}` };
+    const headers = { headers: authHeader };
+    faxios.get(`/api/${username}/portfolio/value/USD`, headers).done((err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        dispatch(setValueUsd(res.data.value));
+      }
+    });
+  };
+}
+
+export function getValueBtc () {
+  return (dispatch, getState) => {
+    console.log('Fetching BTC Value');
+    const username = window.sessionStorage.getItem('username');
+    const authHeader = { 'Authorization': `Bearer ${window.sessionStorage.getItem('jwt')}` };
+    const headers = { headers: authHeader };
+    faxios.get(`/api/${username}/portfolio/value/BTC`, headers).done((err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        dispatch(setValueBtc(res.data.value));
       }
     });
   };

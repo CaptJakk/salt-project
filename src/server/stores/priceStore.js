@@ -37,7 +37,37 @@ const setPriceVolume = S.curry3((asset, metric, pv) => {
   priceVolumes[asset][metric] = pv;
 });
 
+const convertToBtc = (asset, amount) => {
+  let pv;
+  switch (asset) {
+    case BTC:
+      return amount;
+    case USD:
+      pv = getPriceVolume(BTC, USD);
+      return pv.value ? amount / pv.value.price : 0;
+    default:
+      pv = getPriceVolume(asset, BTC);
+      return pv.value ? amount * pv.value.price : 0;
+  }
+};
+
+const convertToUsd = (asset, amount) => {
+  let pv;
+  switch (asset) {
+    case USD:
+      return amount;
+    case BTC:
+      pv = getPriceVolume(BTC, USD);
+      return pv.value ? amount * pv.value.price : 0;
+    default:
+      const priceBtc = convertToBtc(asset, amount);
+      return priceBtc && convertToUsd(BTC, priceBtc);
+  }
+};
+
 module.exports = {
+  convertToBtc,
+  convertToUsd,
   getAllPriceVolumes,
   getPriceVolume,
   setPriceVolume

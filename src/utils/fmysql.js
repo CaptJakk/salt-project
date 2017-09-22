@@ -4,7 +4,8 @@ const dbparams = {
   host: 'localhost',
   user: process.env.MYSQLUSER,
   password: process.env.MYSQLPASS,
-  database: 'saltproj'
+  database: 'saltproj',
+  multipleStatements: true
 };
 
 const setup = () => mysql.createConnection(dbparams);

@@ -15,7 +15,7 @@ const handlePriceSymbol = (req, res) => {
   }
   const pv = getPriceVolume(pair[0], pair[1]);
   if (pv.isLeft) {
-    res.status(400).send(pv.value);
+    res.status(400).json({ error: pv.value });
   }
   res.status(200).send(JSON.stringify(pv.value));
 };

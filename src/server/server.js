@@ -97,7 +97,7 @@ app.get('/api/:username/balance/:symbol', apiHandlers.handleBalanceSymbol);
 // Get Portfolio Balance in USD
 app.get('/api/:username/portfolio/value/USD', apiHandlers.handleValueUsd); // Not sure how valuable this is
 // Get Portfolio Balance in BTC
-app.get('api/:username/portfolio/value/BTC', apiHandlers.handleValueBtc); // Not sure how valuable this is
+app.get('/api/:username/portfolio/value/BTC', apiHandlers.handleValueBtc); // Not sure how valuable this is
 // Get Portfolio Breakdown in percentage value
 app.get('/api/:username/portfolio/breakdown', apiHandlers.handleBreakdown);
 // Get Transaction History
