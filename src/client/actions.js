@@ -1,0 +1,9 @@
+export const RESET = 'RESET';
+export const SET_USERNAME = 'SET_USERNAME';
+export const SET_PASSWORD = 'SET_PASSWORD';
+export const SET_CONFIRMPASS = 'SET_CONFIRMPASS';
+export const SET_INVITECODE = 'SET_INVITECODE';
+export const SET_ERROR = 'SET_ERROR';
+export const SET_ADMIN = 'SET_ADMIN';
+export const SET_INVITES = 'SET_INVITES';
+export const SEND_REGISTRATION = 'SEND_REGISTRATION';

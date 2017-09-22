@@ -4,7 +4,7 @@ var webpack = require('webpack');
 var config = {
   context: path.join(__dirname, 'src/client'),
   entry: [
-    'webpack-hot-middleware/client?reload=true',
+    // 'webpack-hot-middleware/client?reload=true',
     './index.js'
   ],
   output: {
@@ -14,7 +14,7 @@ var config = {
   devtool: 'source-map',
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
   module: {

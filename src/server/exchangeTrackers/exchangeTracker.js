@@ -3,7 +3,7 @@ const faxios = require('../../utils/faxios.js');
 
 const getPriceVolume = S.curry3((tradingPairs, apiEndpoint, transformResponse) => S.curry2((asset, metric) => {
   if (S.contains({ asset, metric }, tradingPairs)) {
-    return faxios.get(apiEndpoint(asset, metric))
+    return faxios.get(apiEndpoint(asset, metric), {})
       .map(res => res.data)
       .map(transformResponse(asset, metric))
       .chain(pv => {

@@ -18,7 +18,8 @@ module.exports = {
   handleSellLoC: tradeHandlers.handleSellLoC,
   handleBuyLimit: tradeHandlers.handleBuyLimit,
   handleSellLimit: tradeHandlers.handleSellLimit,
-  handleLoginPage: authHandlers.handleLoginPage,
   handleLogin: authHandlers.handleLogin,
-  handleLogout: authHandlers.handleLogout
+  handleRegister: authHandlers.handleRegister,
+  handleInvite: authHandlers.handleInvite,
+  handleGetInvites: authHandlers.handleGetInvites
 };
